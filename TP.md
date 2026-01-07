@@ -1,159 +1,89 @@
-# TP Selenium
+# TP GOG.com - Architecture POM
 
 
-Formation Selenium – Java / Maven / JUnit 5 / Allure  
-Site web sur lequel seront effectués les tests : **OrangeHRM Demo** – https://opensource-demo.orangehrmlive.com/
+## Contexte
 
 
-# Jour 1 – Fondamentaux Selenium
+Vous allez automatiser la navigation sur https://www.gog.com/fr/, une plateforme de jeux vidéo, en utilisant l'architecture Page Object Model.
 
 
-## Objectifs pédagogiques globaux
+###  Partie 1 : Préparation des bases de l'architecture POM
 
 
-- Mettre en place un projet de tests automatisés Selenium en Java
-- Manipuler les sélecteurs (XPath & CSS), actions complexes et attentes
+Commencez par créer un package `gog`, vous travaillerez uniquement dans ce package
 
 
-## Prérequis
+#### Exercice 1.1 : Créer `BasePage.java`
 
 
-- Projet Spring Boot Java **basique** fourni (avec Maven)
-- Java 25 installé
-- Maven installé
-- Navigateur Chrome installé (?)
-- (IntelliJ ?)
+- **Consigne** : Créer une classe `BasePage` dans le package `pages`
+- **Rôle** : Classe parente qui contient les méthodes utilitaires réutilisables par toutes les pages
 
+| Méthode                  | Rôle                                     | Retour     |
+|--------------------------|------------------------------------------| ---------- |
+| `BasePage(WebDriver driver)` | Constructeur qui reçoit le driver        | -          |
+| `waitUntil(By locator)`  | Attend qu'un élément soit visible        | WebElement |
+| `waitClick(By locator)`  | Clique sur un élément                    | void       |
+| `type(By locator, String text)` | Tape du texte dans un champ              | void       |
+| `getText(By locator)`     | Récupère le contenu textuel d'un élément | String     |
 
-## Étape 1 – Préparation du projet
+- Attributs de la classe :
+  - `protected WebDriver driver`
+  - `protected WebDriverWait wait`
 
 
-### 1.1. Création / récupération du projet
+#### Exercice 1.2 : Créer `BaseTest.java`
 
 
-1. Vous trouverez le TP à partir duquel nous allons travailler sur ce dépôt Git : https://github.com/TyTy-cf/test-selenium-practice
+- **Consigne** : Créer une classe `BaseTest` dans le package `tests`
+- **Rôle** : Classe parente pour les tests
 
+| Méthode   | Annotation  | Rôle                                   |
+|-----------| ----------- | -------------------------------------- |
+| `setUp()` | @BeforeEach | Initialise le driver avant chaque test |
+| `down()`  | @AfterEach  | Ferme le driver après chaque test      |
 
-### 1.2. Ajout des dépendances de base
 
+###  Partie 2 : Créer les Pages Objects
 
-Dans le `pom.xml`, ajouter les dépendances nécessaires pour utiliser Selenium
 
+#### Exercice 2.1 : Créer `HomePage.java`
 
-## Étape 2 – Premier test Selenium : connexion à OrangeHRM
 
+- **Consigne** : Créer une classe `HomePage` dans le package `pages`, elle va hériter de `BasePage`
+- **Rôle** : Représente la page d'accueil de GOG.com
 
-### 2.1. Classe de base de test
+Elle possède l'attribut `private final By searchInput = `, vous devez définir le bon locator à utiliser
 
 
-Créer une classe `BaseTest` dans `src/test/java/tests` :
+| Méthode                    | Paramètres       | Rôle                                                               | Retour            |
+| -------------------------- | ---------------- | ------------------------------------------------------------------ | ----------------- |
+| `HomePage(WebDriver driver)` | WebDriver driver | Constructeur qui appelle super(driver)                             | -                 |
+| `open()`                     | -                | Ouvre https://www.gog.com/fr/                                      | `HomePage`          |
+| `searchGame(String gameName)` | String gameName  | Tape le nom du jeu dans la barre de recherche et appuie sur ENTRÉE | `SearchResultsPage` |
 
-- Méthode `@BeforeEach` pour :
-  - Configurer WebDriverManager
-  - Instancier un `WebDriver`
-  - Configurer une fenêtre (maximisée) et éventuellement une **attente implicite** (10s).
 
-- Méthode `@AfterEach` pour fermer le navigateur (`driver.quit()`).
+> Détails importants :
+> - `open()` doit retourner `this` pour permettre le chaînage
+> - `searchGame()` doit retourner `new SearchResultsPage(driver)`
+> - Il peut être intéressant d'appuyer sur ENTRÉE pour valider la recherche...
 
 
-### 2.2. Exercice : classe `LoginTest`
+#### Exercice 2.2 : Créer `SearchResultsPage.java`
 
 
-Créer une classe `LoginTest` dans `src/test/java/tests/page` :
+- **Consigne** : Créer une classe `SearchResultsPage` dans le package `pages`, elle va hériter de `BasePage`
+- **Rôle** : Représente la page des résultats de recherche
 
 
-- Créer un test `testLoginWithValidCredentials()` qui :
-  1. Ouvre la page de login
-  2. Renseigne le username `Admin`
-  3. Renseigne le password `admin123`
-  4. Clique sur le bouton de connexion
-  5. Vérifie que le dashboard est affiché (ex: présence d’un élément spécifique, ou texte "Dashboard")
+| Méthode                              | Paramètres       | Rôle                                         | Retour  |
+|--------------------------------------| ---------------- | -------------------------------------------- | ------- |
+| `SearchResultsPage(WebDriver driver)` | WebDriver driver | Constructeur qui appelle super(driver)       | -       |
+| `isDisplayed()`                       | -                | Vérifie qu'on est bien sur la page résultats | boolean |
+| `getCurrentUrl()`                     | -                | Retourne l'URL actuelle de la page           | String  |
 
-- Exécuter votre test
 
+###  Partie 3 : Écrire les tests
 
-## Étape 3 – Sélection d’éléments : XPath vs CSS
 
-
-### 3.1. Locators multiples
-
-
-Dans une nouvelle classe `SelectorTest` (ou dans `LoginTest`) :
-
-Sur la page de login, définir plusieurs locators pour chaque élément :
-
-- Champ `username` :
-	- Par name
-	- Par CSS selector
-	- Par XPath
-
-- Champ `password` :
-	- Par name
-	- Par CSS
-	- Par XPath
-
-- Bouton `login` :
-	- Par CSS
-	- Par XPath (par attribut, puis par texte)
-	
-	
-Le but est de voir toutes les manières de récupération des éléments du DOM
-
-
-Écrire un test qui utilise différents locators pour remplir les champs, puis :
-	- Se connecte
-	- Vérifie que la page dashboard est affichée
-
-Posez vous les questions suivantes :
-
-Quels locators sont les plus lisibles ?
-Quels locators sont les plus robustes si le HTML change ?
-
-
-## Étape 4 – Actions complexes
-
-
-### 4.1. Navigation dans le menu Admin
-
-
-Créer une classe `AdminTest` dans `src/test/java/tests/admin`, avec une méthode de test, par exemple `testNavigateToAdmin()` :
-
-- Réutiliser la logique de login (ou la dupliquer pour le moment)
-- Une fois connecté :
-	- Accéder au menu Admin
-	- Afficher la page Admin (liste des utilisateurs)
-	- Vérifier que la page Admin est bien affichée (Ex : tire “Admin”)
-
-
-### 4.2. Formulaire d’ajout d’utilisateur (simplifié)
-
-
-Dans le même test ou un nouveau :
-
-- Cliquer sur le bouton Add (ajout d’utilisateur)
-- Repérer quelques champs du formulaire
-- Remplir les champs (sans obligation de sauvegarder)
-
-- (Optionnel) Utiliser la classe Actions pour :
-	- Faire un double-clic sur un champ
-	- Utiliser sendKeys + TAB pour changer de champ
-
-
-## Étape 5 – Attentes implicites & explicites
-
-
-### 5.1. Attentes explicites
-
-
-Ajouter une mécanique d’attente explicite, idéalement dans le `BaseTest`
-- Méthode pour attendre la visibilité d’un élément
-- Méthode pour attendre qu’un élément soit cliquable
-
-Créer un test `testLoginWithExplicitWaits()` qui :
-- Utilise les attentes explicites pour :
-- Attendre que les champs de login soient visibles
-- Attendre que le bouton de login soit cliquable
-- Attendre que le dashboard soit visible après connexion
-
-- Créer un test qui échoue volontairement en mettant un timeout trop court, puis le corriger
 
