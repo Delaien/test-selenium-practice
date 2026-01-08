@@ -40,8 +40,8 @@ Commencez par créer un package `gog`, vous travaillerez uniquement dans ce pack
 
 | Méthode   | Annotation  | Rôle                                   |
 |-----------| ----------- | -------------------------------------- |
-| `setUp()` | @BeforeEach | Initialise le driver avant chaque test |
-| `down()`  | @AfterEach  | Ferme le driver après chaque test      |
+| `setUp()` | `@BeforeEach` | Initialise le driver avant chaque test |
+| `down()`  | `@AfterEach`  | Ferme le driver après chaque test      |
 
 
 ###  Partie 2 : Créer les Pages Objects
@@ -66,7 +66,6 @@ Elle possède l'attribut `private final By searchInput = `, vous devez définir 
 > Détails importants :
 > - `open()` doit retourner `this` pour permettre le chaînage
 > - `searchGame()` doit retourner `new SearchResultsPage(driver)`
-> - Il peut être intéressant d'appuyer sur ENTRÉE pour valider la recherche...
 
 
 #### Exercice 2.2 : Créer `SearchResultsPage.java`
@@ -86,4 +85,82 @@ Elle possède l'attribut `private final By searchInput = `, vous devez définir 
 ###  Partie 3 : Écrire les tests
 
 
+#### Exercice 3.1 : Créer `HomeTest`
 
+
+- **Consigne** : Créer une classe `HomeTest` dans le package `tests`, elle va hériter de `BaseTest`
+- **Rôle** : Contient les tests nécessaires à l'affiche de la page d'acceuil
+
+
+#### Exercice 3.2 : Test vérification page d'accueil
+
+
+- **Consigne** : Créer un test `testHomePageIsDisplayed()` dans `HomeTest`
+
+Ce que doit faire le test :
+- Ouvrir la page d'accueil de GOG
+- Vérifier que la page s'affiche correctement (`isDisplayed`)
+- Vérifier l'existance d'un lien pour revenir à la page d'accueil
+
+
+#### Exercice 3.3 : Créer `SearchTest.java`
+
+
+- **Consigne** : Créer une classe `SearchTest` dans le package `tests`, elle va hériter de `BaseTest`
+- **Rôle** : Contient les tests de recherche sur GOG.com
+
+
+#### Exercice 3.4 : Test recherche "Cyberpunk"
+
+
+- **Consigne** : Créer un test `testSearchCyberpunk` dans la classe `SearchTest`
+
+Ce que doit faire le test :
+- Créer une instance de `HomePage` en lui passant `driver`
+- Appeler `open()` puis `searchGame("Cyberpunk")`
+- Vérifier que l'URL contient "Cyberpunk"
+
+
+#### Exercice 3.5 : Test recherche "Binding"
+
+
+- **Consigne** : Créer un test `testSearchBindingOf` dans la classe `SearchTest`
+
+Ce que doit faire le test :
+- Rechercher "Binding of" sur GOG
+- Appeler `open()` puis `searchGame("Binding of")`
+- Vérifier que `isDisplayed()` retourne `true`
+
+
+###  Partie 4 : Améliorer les Page Objects
+
+
+#### Exercice 4.1 : Ajouter une méthode dans `SearchResultsPage`
+
+
+- **Consigne** : Ajouter une méthode `getFirstGameTitle()` dans `SearchResultsPage`
+- - **Rôle** : Retourne le titre du premier jeu dans les résultats
+
+Il faut prévoir l'ajout de :
+- Un attribut supplémentaire
+- Une méthode supplémentaire
+
+
+#### Exercice 4.2 : Test avec vérification du titre
+
+
+- **Consigne** : Créer un test `testFirstResultContainsWitcher()`
+
+Ce que doit faire le test :
+- Rechercher "Witcher"
+- Vérifier que le titre du premier résultat contient "Witcher"
+
+
+#### Exercice 4.3 : Ajouter une méthode dans `HomePage`
+
+
+- **Consigne** : Ajouter une méthode `changeLanguage(String locale)` dans `HomePage`
+
+Ce que doit faire la méthode :
+- Ouvrir https://www.gog.com/{locale}/
+- Retourner `this`
