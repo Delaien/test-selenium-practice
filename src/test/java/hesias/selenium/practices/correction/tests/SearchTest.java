@@ -34,4 +34,22 @@ public class SearchTest extends BaseTest {
         assertTrue(firstGameTitle.contains("Witcher"));
     }
 
+    @Test
+    public void testFilterGoodOldGames() {
+        boolean isFilterActive = new HomePage(driver)
+                .searchGame("Binding of")
+                .isFilterGoodOldGamesActive();
+
+        assertTrue(isFilterActive);
+    }
+
+    @Test
+    public void testResetFilters() {
+        boolean hasResetFiler = new HomePage(driver)
+                .searchGame("Binding of")
+                .hasResetFilters();
+
+        assertTrue(hasResetFiler);
+    }
+
 }

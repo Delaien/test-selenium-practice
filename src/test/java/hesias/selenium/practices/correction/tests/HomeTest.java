@@ -25,4 +25,23 @@ public class HomeTest extends  BaseTest {
         assertTrue(homeIsDisplayed);
     }
 
+    @Test
+    public void testSliderLeft() {
+        boolean lastElementIsActive = new HomePage(driver)
+                .open()
+                .clickSliderLeftArrow();
+
+        assertTrue(lastElementIsActive);
+    }
+
+    @Test
+    public void testClickFirstGameInSwiper() {
+        boolean isOnGamePage = new HomePage(driver)
+                .open()
+                .clickFirstItemSlider()
+                .isDisplayed();
+
+        assertTrue(isOnGamePage);
+    }
+
 }

@@ -195,7 +195,7 @@ Ce que doit faire le test :
   - il faudra ajouter des attributs / fonctions dans la classe `HomePage`
 
 
-#### Exercice 5.3 : Améliorer la `SearchResultsPage`
+#### Exercice 5.3 : Améliorer la `SearchTest`
 
 
 - **Consigne** : Créer un test `testFilterGoodOldGames`

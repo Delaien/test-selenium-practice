@@ -14,6 +14,8 @@ public class BasePage {
 
     static final String ROOT_URL = "https://www.gog.com/fr/";
 
+    protected final By refuseCookies = By.cssSelector("button#CybotCookiebotDialogBodyButtonDecline");
+
     protected WebDriver driver;
     protected WebDriverWait wait;
 
@@ -58,6 +60,10 @@ public class BasePage {
 
     public void scrollToElement(By locator) {
         new Actions(driver).scrollToElement(waitUntil(locator));
+    }
+
+    public void refuseCookies() {
+        waitClick(refuseCookies).click();
     }
 
 }
