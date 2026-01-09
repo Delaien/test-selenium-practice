@@ -1,4 +1,4 @@
-package hesias.selenium.practices.correction;
+package hesias.selenium.practices.correction.tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
