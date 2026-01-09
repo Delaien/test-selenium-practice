@@ -81,8 +81,6 @@ public class AdminTest extends BaseTest {
         passwordConfirmed.click();
         passwordConfirmed.sendKeys("Test123!");
 
-
-
     }
 
 }
