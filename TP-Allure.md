@@ -102,6 +102,12 @@ Ou via l'interface graphique d'IntelliJ
 
 **Consigne** : Tout est dans le titre !
 
+---
+
+## Partie 5 : Faire une CI pour exécuter les tests dans une tâche GitHub Action
+
+**Consigne** : Tout est dans le titre !
+
 
 
 
