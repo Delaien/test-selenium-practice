@@ -43,10 +43,14 @@ public class HomePage extends BasePage {
         By resultBySlug = By.cssSelector(".menu-search__results a.menu-product__link[href*='" + slug + "']");
         try {
             wait.until(d -> !d.findElements(resultBySlug).isEmpty() || !d.findElements(searchFirstResult).isEmpty());
-            if (!driver.findElements(resultBySlug).isEmpty()) {
-                waitClick(resultBySlug);
+            var link = !driver.findElements(resultBySlug).isEmpty()
+                    ? driver.findElements(resultBySlug).get(0)
+                    : driver.findElements(searchFirstResult).get(0);
+            String href = link.getAttribute("href");
+            if (href != null && !href.isBlank()) {
+                driver.get(href);
             } else {
-                waitClick(searchFirstResult);
+                link.click();
             }
         } catch (TimeoutException e) {
             driver.get("https://www.gog.com/fr/game/" + slug);
