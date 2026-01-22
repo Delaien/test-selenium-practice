@@ -21,7 +21,11 @@ public class BaseTest {
         @Override
         public void testFailed(ExtensionContext context, Throwable cause) {
             if (driver instanceof TakesScreenshot) {
-                captureScreenshot(context.getDisplayName());
+                try {
+                    captureScreenshot(context.getDisplayName());
+                } catch (RuntimeException ignored) {
+                    // Ignore screenshot errors when session is already closed.
+                }
             }
         }
     };

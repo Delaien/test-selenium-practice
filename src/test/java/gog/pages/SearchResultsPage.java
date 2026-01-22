@@ -34,6 +34,10 @@ public class SearchResultsPage extends BasePage {
         return !driver.findElements(goodOldGamesAppliedFilter).isEmpty();
     }
 
+    public void waitForGoodOldGamesFilterApplied() {
+        wait.until(d -> !d.findElements(goodOldGamesAppliedFilter).isEmpty());
+    }
+
     public void removeFilters() {
         dismissCookieBannerIfPresent();
         waitClick(removeFiltersButton);

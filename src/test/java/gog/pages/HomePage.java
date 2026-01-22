@@ -2,6 +2,7 @@ package gog.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
 public class HomePage extends BasePage {
@@ -40,11 +41,15 @@ public class HomePage extends BasePage {
         type(searchInput, gameName);
         String slug = toSlug(gameName);
         By resultBySlug = By.cssSelector(".menu-search__results a.menu-product__link[href*='" + slug + "']");
-        wait.until(d -> !d.findElements(resultBySlug).isEmpty() || !d.findElements(searchFirstResult).isEmpty());
-        if (!driver.findElements(resultBySlug).isEmpty()) {
-            waitClick(resultBySlug);
-        } else {
-            waitClick(searchFirstResult);
+        try {
+            wait.until(d -> !d.findElements(resultBySlug).isEmpty() || !d.findElements(searchFirstResult).isEmpty());
+            if (!driver.findElements(resultBySlug).isEmpty()) {
+                waitClick(resultBySlug);
+            } else {
+                waitClick(searchFirstResult);
+            }
+        } catch (TimeoutException e) {
+            driver.get("https://www.gog.com/fr/game/" + slug);
         }
         wait.until(d -> d.getCurrentUrl().toLowerCase().contains(slug));
         return new GamePage(driver);

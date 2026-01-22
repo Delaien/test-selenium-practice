@@ -54,6 +54,7 @@ public class SearchTest extends BaseTest {
         SearchResultsPage results = new HomePage(driver).open().searchGame("Witcher");
 
         results.applyGoodOldGamesFilter();
+        results.waitForGoodOldGamesFilterApplied();
         Assertions.assertTrue(results.isGoodOldGamesFilterDisplayed());
     }
 
@@ -66,6 +67,7 @@ public class SearchTest extends BaseTest {
         SearchResultsPage results = new HomePage(driver).open().searchGame("Witcher");
 
         results.applyGoodOldGamesFilter();
+        results.waitForGoodOldGamesFilterApplied();
         Assertions.assertTrue(results.isGoodOldGamesFilterDisplayed());
 
         results.removeFilters();
