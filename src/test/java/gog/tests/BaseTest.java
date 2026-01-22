@@ -29,17 +29,12 @@ public class BaseTest {
     @BeforeEach
     protected void setUp() {
         String chromeVersion = System.getenv("CHROME_VERSION");
-        if (chromeVersion != null && !chromeVersion.isBlank()) {
-            WebDriverManager.chromedriver().browserVersion(chromeVersion).setup();
-        } else {
-            WebDriverManager.chromedriver().setup();
-        }
         ChromeOptions options = new ChromeOptions();
         String chromeBinary = System.getenv("CHROME_BIN");
         if (chromeBinary != null && !chromeBinary.isBlank()) {
             options.setBinary(chromeBinary);
         }
-        options.addArguments("--headless");
+        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
@@ -48,7 +43,11 @@ public class BaseTest {
         options.addArguments("--no-first-run");
         options.addArguments("--no-default-browser-check");
         options.addArguments("--window-size=1920,1080");
-        driver = new ChromeDriver(options);
+        WebDriverManager chromedriver = WebDriverManager.chromedriver();
+        if (chromeVersion != null && !chromeVersion.isBlank()) {
+            chromedriver.browserVersion(chromeVersion);
+        }
+        driver = chromedriver.capabilities(options).create();
         driver.manage().window().maximize();
     }
 
