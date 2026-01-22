@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class SearchResultsPage extends BasePage {
     private final By firstGameTitle = By.cssSelector("[selenium-id='productTileGameTitle']");
     private final By goodOldGamesFilter = By.cssSelector("[selenium-id='showOnlyPreservedGamesCheckbox'] .filter-option__label");
+    private final By goodOldGamesCheckboxInput = By.cssSelector("[selenium-id='showOnlyPreservedGamesCheckbox'] input[type='checkbox']");
     private final By goodOldGamesAppliedFilter = By.cssSelector("[selenium-id='showOnlyPreservedGamesCheckbox'] input[type='checkbox']:checked");
     private final By removeFiltersButton = By.cssSelector("[selenium-id='filterClearingList'] [selenium-id='filterClearingItemIcon']");
 
@@ -41,6 +42,16 @@ public class SearchResultsPage extends BasePage {
     public void removeFilters() {
         dismissCookieBannerIfPresent();
         waitClick(removeFiltersButton);
+        if (isGoodOldGamesFilterDisplayed()) {
+            var checkbox = waitPresent(goodOldGamesCheckboxInput);
+            if (checkbox.isSelected()) {
+                try {
+                    checkbox.click();
+                } catch (org.openqa.selenium.ElementClickInterceptedException ignored) {
+                    ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", checkbox);
+                }
+            }
+        }
     }
 
     public void waitForFiltersCleared() {
