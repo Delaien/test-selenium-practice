@@ -17,6 +17,10 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
       - name: Run tests
         run: |
           chmod +x mvnw
