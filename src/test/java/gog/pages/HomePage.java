@@ -38,7 +38,8 @@ public class HomePage extends BasePage {
         dismissCookieBannerIfPresent();
         waitClick(searchButton);
         type(searchInput, gameName);
-        waitUntil(searchFirstResult).click();
+        waitUntil(searchFirstResult);
+        waitClick(searchFirstResult);
         return new GamePage(driver);
     }
 
@@ -50,6 +51,10 @@ public class HomePage extends BasePage {
 
     public WorkPage goToJobOfferPage() {
         dismissCookieBannerIfPresent();
+        if (driver.findElements(aboutMenu).isEmpty()) {
+            driver.get("https://www.gog.com/fr/work");
+            return new WorkPage(driver);
+        }
         hover(aboutMenu);
         waitClick(joinTeamLink);
         return new WorkPage(driver);
