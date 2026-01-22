@@ -21,3 +21,10 @@ jobs:
         run: |
           chmod +x mvnw
           ./mvnw test
+          ./mvnw allure:report
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
