@@ -38,8 +38,14 @@ public class HomePage extends BasePage {
         dismissCookieBannerIfPresent();
         waitClick(searchButton);
         type(searchInput, gameName);
-        waitUntil(searchFirstResult);
-        waitClick(searchFirstResult);
+        String slug = toSlug(gameName);
+        By resultBySlug = By.cssSelector(".menu-search__results a.menu-product__link[href*='" + slug + "']");
+        wait.until(d -> !d.findElements(resultBySlug).isEmpty() || !d.findElements(searchFirstResult).isEmpty());
+        if (!driver.findElements(resultBySlug).isEmpty()) {
+            waitClick(resultBySlug);
+        } else {
+            waitClick(searchFirstResult);
+        }
         return new GamePage(driver);
     }
 
@@ -51,7 +57,15 @@ public class HomePage extends BasePage {
 
     public WorkPage goToJobOfferPage() {
         dismissCookieBannerIfPresent();
-        if (driver.findElements(aboutMenu).isEmpty()) {
+        boolean aboutVisible = false;
+        var menus = driver.findElements(aboutMenu);
+        for (var menu : menus) {
+            if (menu.isDisplayed()) {
+                aboutVisible = true;
+                break;
+            }
+        }
+        if (!aboutVisible) {
             driver.get("https://www.gog.com/fr/work");
             return new WorkPage(driver);
         }
@@ -109,5 +123,11 @@ public class HomePage extends BasePage {
         driver.get("https://www.gog.com/" + locale + "/");
         dismissCookieBannerIfPresent();
         return this;
+    }
+
+    private String toSlug(String value) {
+        return value.toLowerCase()
+                .replaceAll("[^a-z0-9]+", "_")
+                .replaceAll("^_+|_+$", "");
     }
 }

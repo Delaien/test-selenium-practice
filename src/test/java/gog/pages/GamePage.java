@@ -20,7 +20,7 @@ public class GamePage extends BasePage {
 
     public void clickAddToCart() {
         dismissCookieBannerIfPresent();
-        var button = waitUntil(addToCartButton);
+        var button = waitPresent(addToCartButton);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({block: 'center'});",
                 button
