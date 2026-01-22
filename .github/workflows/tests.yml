@@ -18,10 +18,13 @@ jobs:
           java-version: "21"
           cache: maven
       - name: Setup Chrome
+        id: chrome
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
       - name: Run tests
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
         run: |
           chmod +x mvnw
           ./mvnw test
