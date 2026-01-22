@@ -28,7 +28,12 @@ public class BaseTest {
 
     @BeforeEach
     protected void setUp() {
-        WebDriverManager.chromedriver().setup();
+        String chromeVersion = System.getenv("CHROME_VERSION");
+        if (chromeVersion != null && !chromeVersion.isBlank()) {
+            WebDriverManager.chromedriver().browserVersion(chromeVersion).setup();
+        } else {
+            WebDriverManager.chromedriver().setup();
+        }
         ChromeOptions options = new ChromeOptions();
         String chromeBinary = System.getenv("CHROME_BIN");
         if (chromeBinary != null && !chromeBinary.isBlank()) {

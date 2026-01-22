@@ -25,6 +25,7 @@ jobs:
       - name: Run tests
         env:
           CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
+          CHROME_VERSION: ${{ steps.chrome.outputs.chrome-version }}
         run: |
           chmod +x mvnw
           ./mvnw test
