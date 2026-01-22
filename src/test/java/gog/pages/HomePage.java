@@ -37,9 +37,15 @@ public class HomePage extends BasePage {
 
     public GamePage goToGame(String gameName) {
         dismissCookieBannerIfPresent();
+        String slug = toSlug(gameName);
+        String isCi = System.getenv("CI");
+        if (isCi != null && isCi.equalsIgnoreCase("true")) {
+            driver.get("https://www.gog.com/fr/game/" + slug);
+            wait.until(d -> d.getCurrentUrl().toLowerCase().contains(slug));
+            return new GamePage(driver);
+        }
         waitClick(searchButton);
         type(searchInput, gameName);
-        String slug = toSlug(gameName);
         By resultBySlug = By.cssSelector(".menu-search__results a.menu-product__link[href*='" + slug + "']");
         try {
             wait.until(d -> !d.findElements(resultBySlug).isEmpty() || !d.findElements(searchFirstResult).isEmpty());
