@@ -39,11 +39,14 @@ public class BaseTest {
         if (chromeBinary != null && !chromeBinary.isBlank()) {
             options.setBinary(chromeBinary);
         }
-        options.addArguments("--headless=new");
+        options.addArguments("--headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--no-first-run");
+        options.addArguments("--no-default-browser-check");
         options.addArguments("--window-size=1920,1080");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();

@@ -22,6 +22,11 @@ jobs:
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
+      - name: Check Chrome version
+        run: |
+          echo "Chrome path: ${{ steps.chrome.outputs.chrome-path }}"
+          echo "Chrome version: ${{ steps.chrome.outputs.chrome-version }}"
+          "${{ steps.chrome.outputs.chrome-path }}" --version
       - name: Run tests
         env:
           CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
