@@ -46,6 +46,7 @@ public class HomePage extends BasePage {
         } else {
             waitClick(searchFirstResult);
         }
+        wait.until(d -> d.getCurrentUrl().toLowerCase().contains(slug));
         return new GamePage(driver);
     }
 

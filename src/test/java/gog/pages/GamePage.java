@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public class GamePage extends BasePage {
     private final By addToCartButton = By.cssSelector("[selenium-id='AddToCartButton']");
+    private final By genericCartButton = By.cssSelector("button.cart-button");
     private final By checkoutButton = By.cssSelector("[selenium-id='CheckoutButton']");
 
     public GamePage(WebDriver driver) {
@@ -20,12 +21,19 @@ public class GamePage extends BasePage {
 
     public void clickAddToCart() {
         dismissCookieBannerIfPresent();
-        var button = waitPresent(addToCartButton);
+        wait.until(d -> !d.findElements(addToCartButton).isEmpty() || !d.findElements(genericCartButton).isEmpty());
+        var button = !driver.findElements(addToCartButton).isEmpty()
+                ? driver.findElements(addToCartButton).get(0)
+                : driver.findElements(genericCartButton).get(0);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({block: 'center'});",
                 button
         );
-        waitClick(addToCartButton);
+        try {
+            button.click();
+        } catch (org.openqa.selenium.ElementClickInterceptedException ignored) {
+            ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
+        }
     }
 
     public boolean isInCart() {
