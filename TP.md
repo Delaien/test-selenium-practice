@@ -164,3 +164,167 @@ Ce que doit faire le test :
 Ce que doit faire la méthode :
 - Ouvrir https://www.gog.com/{locale}/
 - Retourner `this`
+
+
+###  Partie 5 : Améliorer la `HomeTest`
+
+
+#### Exercice 5.1 : Tester le slider (carousel)
+
+
+- **Consigne** : Créer un test `testSliderLeft()` dans `HomeTest`
+
+Ce que doit faire le test :
+- Chercher le bouton permettant de faire défiler le slider vers la gauche, cliquer dessus
+- Vérifier ensuite le "swiper" (balise HTML) a bien changé son élément "actif" (classe `swiper-pagination-bullet-active`)
+
+- Astuces :
+  - il faudra ajouter des attributs / fonctions dans la classe `HomePage`
+
+
+#### Exercice 5.2 : Aller sur la page d'un jeu
+
+
+- **Consigne** : Créer un test `testGoToGamePage()` dans `HomeTest`
+
+Ce que doit faire le test :
+- Chercher le premier jeu du premier "swiper" (Nom : `a_plague_tale_requiem`) et cliquer dessus pour aller sur la page de détail de celui-ci
+
+- Astuces :
+  - il faudra créer une classe `GamePage`
+  - il faudra ajouter des attributs / fonctions dans la classe `HomePage`
+
+
+#### Exercice 5.3 : Améliorer la `SearchTest`
+
+
+- **Consigne** : Créer un test `testFilterGoodOldGames`
+
+Ce que doit faire le test :
+- Chercher la checkbox de "GOOD OLD GAMES", cliquer dessus
+- Vérifier l'affiche du filtre "Good old games"
+
+- Astuces :
+  - il faudra ajouter des attributs / fonctions dans la classe `SearchResultsPage`
+
+
+#### Exercice 5.4 : Améliorer la `SearchResultsPage`
+
+
+- **Consigne** : Créer un test `testRemoveFilter`
+
+Ce que doit faire le test :
+- Chercher le filtre "Supprimer les filtres" et cliquer dessus
+- Vérifier que la page soit bien "réinitialisée" (à votre guise pour l'idée)
+
+- Astuces :
+  - il faudra ajouter des attributs / fonctions dans la classe `SearchResultsPage`
+
+
+#### Exercice 5.5 : Améliorer la `HomePage`
+
+
+- **Consigne** : Créer une fonction `goToGame`
+
+Ce que doit faire la fonction :
+- Elle prend en paramètre un `String` correspondant au nom du jeu à rechercher
+- Elle doit faire le même comportement que la fonction `searchGame`, sauf qu'elle n'appuie pas sur `ENTER`
+- Elle doit attendre que le dropdown de recherche apparaisse et clique sur le premier jeu du dropdown
+- Elle renvoie un objet de type `GamePage`
+
+- Astuces :
+  - il faudra ajouter des attributs / fonctions dans la classe `HomePage`
+
+
+#### Exercice 5.6 : Améliorer la `HomeTest`
+
+
+- **Consigne** : Créer une fonction `testGoToGame`
+
+Ce que doit faire la fonction :
+- Tester le comportement de la fonction `goToGame` de la `HomePage`
+- Vérifier que l'on arrive bien sur la page du jeu (via l'URL)
+- Tester votre fonction avec le jeu "Theme Hospital"
+
+
+#### Exercice 5.7 : Améliorer la `GamePage`
+
+
+- **Consigne** : Créer une fonction `addGameToCart`
+
+Ce que doit faire la fonction :
+- Elle reprend le comportement de la fonction `goToGame` pour aller sur la page d'un jeu
+- Elle clique sur le bouton "Ajouter au panier"
+
+
+#### Exercice 5.8 : Créer la classe `GameTest`
+
+
+- **Consigne** : Créer une fonction `testAddGameToCart`
+
+Ce que doit faire la fonction :
+- Elle reprend le comportement de la fonction `addGameToCart` de la `GamePage` pour ajouter un jeu au panier
+- Elle doit vérifier que le jeu s'est correctement ajouté
+
+
+###  Partie 6 : Nouvelle page
+
+
+#### Exercice 6.1 : Créer la classe `WorkPage`
+
+
+- **Consigne** : Créer une fonction `goToJobOfferInput`
+
+Ce que doit faire la fonction :
+- Aller sur la page des offres d'emplois, puis scroller jusqu'à la barre de recherche des offres d'emploi
+
+
+#### Exercice 6.2 : Améliorer la classe `WorkPage`
+
+
+- **Consigne** : Créer une fonction `searchForJobOffer`
+
+Ce que doit faire la fonction :
+- Avoir un paramètre de type String, de nom "job"
+- Reprendre le comportement de la fonction `goToJobOfferInput`
+- Ecrire le paramètre "job" dans la barre de recherche
+
+
+#### Exercice 6.3 : Améliorer la classe `HomePage`
+
+
+- **Consigne** : Créer une fonction `goToJobOfferPage`
+
+Ce que doit faire la fonction :
+- Cliquer sur le dropdown "À propos"
+- Puis cliquer "Rejoindre notre équipe"
+- La fonction doit retourner un objet de type `WorkPage`
+
+
+#### Exercice 6.4 : Améliorer la classe `HomeTest`
+
+
+- **Consigne** : Créer une fonction `testGoToJobOfferPage`
+
+Ce que doit faire la fonction :
+- Tester si l'on peut bien accéder à la base `WorkPage`
+
+
+#### Exercice 6.5 : Créer la classe `WorkTest`
+
+
+- **Consigne** : Créer une fonction `testSearchForJobOffer`
+
+Ce que doit faire la fonction :
+- Tester si l'on peut bien accéder à l'input de recherche d'offre d'emploi et saisir "backend" dedans
+- Il faudra modifier `WorkPage` pour cet exercice
+
+
+
+
+
+
+
+
+
+
