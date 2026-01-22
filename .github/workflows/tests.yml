@@ -49,3 +49,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Report link
+        run: echo "Allure report: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
